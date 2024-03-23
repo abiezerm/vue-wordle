@@ -32,10 +32,26 @@ describe("WordleBoard", () => {
         expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE);
     })
 
-    test("If a word of the day does not have 5 letters, a warning is emitted", () => {
-        vi.spyOn(console, 'warn');
+    test("If a word of the day does not have 5 letters, a warning is emitted", async() => {
+        console.warn = vi.fn();
 
         wrapper = mount(WordleBoard, { props: { wordOfTheDay: "FLY" }});
+
+        expect(console.warn).toHaveBeenCalled();
+    })
+
+    test("If the word of the day is not all in uppercase, a warning is emitted", async() => {
+        console.warn = vi.fn();
+
+        wrapper = mount(WordleBoard, { props: { wordOfTheDay: "tests" }});
+
+        expect(console.warn).toHaveBeenCalled();
+    })
+
+    test("If the word of the day is not a english word, a warning is emitted", async() => {
+        console.warn = vi.fn();
+
+        wrapper = mount(WordleBoard, { props: { wordOfTheDay: "QRTTD" }});
 
         expect(console.warn).toHaveBeenCalled();
     })
