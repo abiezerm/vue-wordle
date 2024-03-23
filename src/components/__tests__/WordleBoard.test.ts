@@ -3,7 +3,7 @@ import WordleBoard from '../WordleBoard.vue';
 import { VICTORY_MESSAGE, DEFEAT_MESSAGE, WORD_SIZE } from '@/settings';
 
 describe("WordleBoard", () => {
-    const wordOfTheDay = "TEST";
+    const wordOfTheDay = "TESTS";
     let wrapper: ReturnType<typeof mount>;
 
     beforeEach(() => {
@@ -83,6 +83,13 @@ describe("WordleBoard", () => {
             await playerSubmitGuess("H3!RT")
 
             expect(wrapper.find<HTMLInputElement>('input[type="text"]').element.value).toEqual('HRT')
+        })
+
+        test(`Non-letter characters are not render on the screen while been typed`, async() => {
+            await playerSubmitGuess("12")
+            await playerSubmitGuess("123")
+
+            expect(wrapper.find<HTMLInputElement>('input[type="text"]').element.value).toEqual('')
         })
     }) 
 })
