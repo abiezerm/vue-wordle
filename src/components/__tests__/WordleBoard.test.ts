@@ -31,4 +31,12 @@ describe("WordleBoard", () => {
         expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE);
         expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE);
     })
+
+    test("If a word of the day does not have 5 letters, a warning is emitted", () => {
+        vi.spyOn(console, 'warn');
+
+        wrapper = mount(WordleBoard, { props: { wordOfTheDay: "FLY" }});
+
+        expect(console.warn).toHaveBeenCalled();
+    })
 })
