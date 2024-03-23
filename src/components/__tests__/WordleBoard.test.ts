@@ -37,11 +37,11 @@ describe("WordleBoard", () => {
 
     describe("Rules for defining the word of the day", () => {
         test.each([
-            "FLY",
-            "tests",
-            "QRTTD",
+            { wordOfTheDay: "FLY", reason: "word-of-the-day must have 5 characters" },
+            { wordOfTheDay: "tests", reason: "word-of-the-day must be all in uppercase" },
+            { wordOfTheDay: "QRTTD", reason: "word-of-the-day must be a valid english word" },
         ])
-        ("If %s is provided, a warning is emitted", async(wordOfTheDay: string) => {
+        ("since $reason: $wordOfTheDay is invalid, therefor a warning is emitted", async({wordOfTheDay}) => {
             console.warn = vi.fn();
     
             wrapper = mount(WordleBoard, { props: { wordOfTheDay }});
