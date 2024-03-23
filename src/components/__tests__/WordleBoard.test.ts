@@ -1,9 +1,9 @@
 import { mount } from '@vue/test-utils';
 import WordleBoard from '../WordleBoard.vue';
-import { VICTORY_MESSAGE, DEFEAT_MESSAGE } from '@/settings';
+import { VICTORY_MESSAGE, DEFEAT_MESSAGE, WORD_SIZE } from '@/settings';
 
 describe("WordleBoard", () => {
-    let wordOfTheDay = "TEST";
+    const wordOfTheDay = "TEST";
     let wrapper: ReturnType<typeof mount>;
 
     beforeEach(() => {
@@ -60,9 +60,29 @@ describe("WordleBoard", () => {
     })
     
     describe("Player input", () => {
-        test.todo("Player guesses are limited to 5 letters")
-        test.todo("Player guesses can only be submitted if they are real english words")
-        test.todo("Player guesses are not case-sensitive")
-        test.todo("Player guesses can only contains letters")
+        test(`Player guesses are limited to ${WORD_SIZE} letters`, async() => {
+            await playerSubmitGuess(wordOfTheDay + "EXTRA")
+
+            expect(wrapper.text()).toContain(VICTORY_MESSAGE)
+        })
+
+        test(`Player guesses can only be submitted if they are real english words`, async() => {
+            await playerSubmitGuess("QRTTD")
+
+            expect(wrapper.text()).not.toContain(VICTORY_MESSAGE)
+            expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE)
+        })
+
+        test("Player guesses are not case-sensitive", async() => {
+            await playerSubmitGuess(wordOfTheDay.toLowerCase())
+
+            expect(wrapper.text()).toContain(VICTORY_MESSAGE)
+        })
+
+        test("Player guesses can only contains letters", async() => {
+            await playerSubmitGuess("H3!RT")
+
+            expect(wrapper.find<HTMLInputElement>('input[type="text"]').element.value).toEqual('HRT')
+        })
     }) 
 })
