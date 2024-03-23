@@ -1,6 +1,4 @@
 import { mount } from '@vue/test-utils';
-import { it, describe, expect } from "vitest";
-
 import WordleBoard from '../WordleBoard.vue';
 
 describe("WordleBoard", () => {
