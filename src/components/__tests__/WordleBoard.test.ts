@@ -2,10 +2,16 @@ import { mount } from '@vue/test-utils';
 import WordleBoard from '../WordleBoard.vue';
 
 describe("WordleBoard", () => {
-    it("renders the properly", () => {
-        const msg = "hello vitest!";
-        const wrapper = mount(WordleBoard, { props: { msg: msg } });
+    test("a victory message appears when the user make a guess that match the word of the day", async() => {
+        //Arrange
+        const wrapper = mount(WordleBoard, { props: { wordOfTheDay: "TEST" }});
 
-        expect(wrapper.text()).toContain(msg);
-    });
-});
+        //Act
+        const guessInput = wrapper.find('input[type="text"]');
+        await guessInput.setValue('TEST');
+        await guessInput.trigger('keydown.enter');
+
+        //Assert
+        expect(wrapper.text()).toContain('You won!');
+    })
+})
