@@ -16,18 +16,18 @@ describe("WordleBoard", () => {
         await guessInput.trigger('keydown.enter');
     }
 
-    test("a victory message appears when the user make a guess that match the word of the day", async() => {
+    test("A victory message appears when the user make a guess that match the word of the day", async() => {
         await playerSubmitGuess(wordOfTheDay);
 
         expect(wrapper.text()).toContain(VICTORY_MESSAGE);
     })
 
-    test("a defeat message appear if the user make a guess that is incorrect", async() => {
+    test("A defeat message appear if the user make a guess that is incorrect", async() => {
         await playerSubmitGuess('WRONG');
 
         expect(wrapper.text()).toContain(DEFEAT_MESSAGE);
     })
-    test("no end-of-game appears if the user has not yet make a guess", async() => {
+    test("No end-of-game appears if the user has not yet make a guess", async() => {
         expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE);
         expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE);
     })
@@ -54,5 +54,13 @@ describe("WordleBoard", () => {
         wrapper = mount(WordleBoard, { props: { wordOfTheDay: "QRTTD" }});
 
         expect(console.warn).toHaveBeenCalled();
+    })
+
+    test("No warning is emitted if the world of the day is a real uppercase english world with 5 characters", async() => {
+        console.warn = vi.fn();
+
+        wrapper = mount(WordleBoard, { props: { wordOfTheDay: "TESTS" }});
+
+        expect(console.warn).not.toHaveBeenCalled();
     })
 })
