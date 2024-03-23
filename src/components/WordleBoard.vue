@@ -1,10 +1,14 @@
 <script setup lang="ts">
-defineProps<{
-  wordOfTheDay: string
-}>()
+  import { defineProps } from 'vue'
+  import { VICTORY_MESSAGE } from '../settings'
+
+  defineProps<{
+    wordOfTheDay: string
+  }>()
+
 </script>
 
 <template>
-    <input type="text">
-    <p>You won!</p>
+    <input type="text" />
+    <p>{{ VICTORY_MESSAGE }}</p>
 </template>
